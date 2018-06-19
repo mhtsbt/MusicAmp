@@ -1,16 +1,46 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const { app, BrowserWindow, dialog } = require('electron');
+const fs = require('fs');
+const path = require('path');
+var http = require('http');
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({ width: 800, height: 600 })
 
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile('index.html');
+
+  //const testFolder = 'D:\\Music';
+
+  const songscanner = require("./songscanner");
+  var songs = songscanner.getLibrary();
+
+
+
+  http.createServer(function (req, res) {
+
+    res.writeHead(200, { 'Content-Type': 'audio/mpeg' });
+
+    var hash = req.url.replace('/', '');
+    console.log(hash);
+
+    var song = songs.filter(s => { return s.hash === hash })[0];
+    console.log(song);
+    var songData = fs.readFileSync(song.path);
+    res.end(songData);
+
+  }).listen(9000);
+
+  /*
+  fs.readdir(testFolder, (err, files) => {
+    files.forEach(file => {
+      console.log(file);
+    });
+  })*/
+
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
