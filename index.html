@@ -5,25 +5,34 @@
     <meta charset="UTF-8">
     <title>MusicAmp</title>
 
+    <style>
+        .playing {
+            background-color: yellow;
+        }
+    </style>
+
     <script src="libs/vue.js"></script>
 </head>
 
 <body>
 
     <audio controls id="player">
-        <source src="horse.ogg" type="audio/ogg">
         <source src="horse.mp3" type="audio/mpeg"> Your browser does not support the audio element.
     </audio>
 
-    <table id="example-1">
-        <tr v-for="item in items" v-on:click="playSong(item)">
-            <td style="width:1%">{{item.track}}</td>
-            <td>{{item.title}}</td>
-            <td>{{item.artist}}</td>
-            <td>{{item.album}}</td>
+    <div id="example-1">
 
-        </tr>
-    </table>
+        <song-row v-for="song in songs" v-bind:song="song"></song-row>
+
+        <!--
+        <tr class="example-2" v-for="song in songs" v-on:click="playSong(song)" v-bind:class="{'active':song.playing}">
+            <td style="width:1%">{{song.track}} {{song.playing}}</td>
+            <td>{{song.title}}</td>
+            <td>{{song.artist}}</td>
+            <td>{{song.album}}</td>
+
+        </tr>-->
+    </div>
 
     <script>
         // You can also require other files to run in this process
