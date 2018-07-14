@@ -6,30 +6,28 @@ var player = document.getElementById('player');
 
 var currentPlayingSong;
 
-var example1 = new Vue({
-    el: '#example-1',
+var songlist = new Vue({
+    el: '#songlist',
     data: {
-        songs: songs
+        songs: []
     },
     methods: {
 
     }
 });
 
-//
-
 var bus = new Vue();
 
 Vue.component('song-row', {
     props: ['song'],
-    template: '<div style="padding:10px;" v-on:click="playSong" v-bind:class="{\'playing\':playing}">{{song.track}} {{song.title}} {{playing}}</div>',
-    data: function () {
-        return { playing: false };
-    },
+    template: '<div style="padding:10px;" v-on:click="playSong" v-bind:class="{\'playing\':song.playing}">{{song.track}} {{song.title}} {{song.playing}}</div>',
+    // data: function () {
+    //     return { playing: false };
+    // },
     created: function () {
         console.log("hello!");
 
-        bus.$on("changedSong", w => { this.playing = false; console.log("song changed", this); });
+        //  bus.$on("changedSong", w => { this.playing = false; console.log("song changed", this); });
 
     },
     methods: {
@@ -59,39 +57,13 @@ Vue.component('song-row', {
     }
 });
 
-/*
-var example2 = new Vue.component({
-    el: '.example-2',
-    data: {
-        songs: songs
-    },
-   
-    }
-});*/
+//const songscanner = require("./songscanner");
 
+//var data = songscanner.getLibrary();
 
 /*
-fs.readFile('songs.json', 'utf8', function (err, data) {
-    if (err) {
-        return console.log(err);
-    }
-    console.log(data);
-
-    var data = JSON.parse(data);
-    console.log(data);
-
-    for (var i = 0; i < data.length; i++) {
-        songs.push(data[i]);
-    }
-    //songs.push({ title: "test" });
-
-});*/
-
-const songscanner = require("./songscanner");
-
-var data = songscanner.getLibrary();
-
 for (var i = 0; i < data.length; i++) {
-    songs.push(data[i]);
-}
-//songs.push({ title: "test" });
+    songlist.songs.push(data[i]);
+}*/
+
+songlist.songs.push({ title: "test", playing: false });
